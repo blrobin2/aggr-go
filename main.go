@@ -8,28 +8,28 @@ import (
 )
 
 func getAlbums() []aggr.Album {
-	a := []aggr.Album{}
-	done := make(chan []aggr.Album)
+	albums := []aggr.Album{}
+	albumChan := make(chan []aggr.Album)
 
 	for _, feed := range aggr.Feeds() {
-		go func(res func() []aggr.Album) {
-			done <- res()
+		go func(feedFunc func() []aggr.Album) {
+			albumChan <- feedFunc()
 		}(feed)
 	}
 
 	for range aggr.Feeds() {
-		res := <-done
-		fmt.Println(a)
-		a = append(a, res...)
+		response := <-albumChan
+		albums = append(albums, response...)
 	}
 
-	return a
+	return albums
 }
 
-func organizeAlbums(lowestScore float32, currentMonth time.Month, a []aggr.Album) []aggr.Album {
-	a = aggr.UniqueAlbums(a)
-	aggr.DefaultSort(a)
-	return aggr.DefaultFilter(lowestScore, currentMonth, a)
+func organizeAlbums(lowestScore float32, currentMonth time.Month, albums []aggr.Album) []aggr.Album {
+	albums = aggr.UniqueAlbums(albums)
+	albums = aggr.DefaultFilter(lowestScore, currentMonth, albums)
+	aggr.DefaultSort(albums)
+	return albums
 }
 
 func main() {

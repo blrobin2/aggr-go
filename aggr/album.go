@@ -2,6 +2,7 @@ package aggr
 
 import (
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -66,11 +67,11 @@ func (ms *MultiSorter) Sort(albums []Album) {
 }
 
 func byArtist(a1, a2 *Album) bool {
-	return a1.Artist < a2.Artist
+	return strings.ToLower(a1.Artist) < strings.ToLower(a2.Artist)
 }
 
 func byTitle(a1, a2 *Album) bool {
-	return a1.Title < a2.Title
+	return strings.ToLower(a1.Title) < strings.ToLower(a2.Title)
 }
 
 // DefaultSort is the default means of sorting a slice of Albums

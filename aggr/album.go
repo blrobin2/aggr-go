@@ -104,3 +104,17 @@ func scoreIsHighEnough(lowestScore float32, album Album) bool {
 func cameOutThisMonth(currentMonth time.Month, album Album) bool {
 	return album.Date.Month() == currentMonth
 }
+
+// UniqueAlbums filters out albums that are not unique
+func UniqueAlbums(albums []Album) []Album {
+	keys := make(map[string]bool)
+	list := []Album{}
+	for _, album := range albums {
+		key := album.Title + album.Artist
+		if _, value := keys[key]; !value {
+			keys[key] = true
+			list = append(list, album)
+		}
+	}
+	return list
+}

@@ -11,7 +11,7 @@ type Album struct {
 	Artist string
 	Title  string
 	Date   time.Time
-	Score  int
+	Score  float32
 }
 
 type lessFunc func(a1, a2 *Album) bool
@@ -91,13 +91,13 @@ func Filter(albums []Album, cond func(Album) bool) []Album {
 }
 
 // DefaultFilter is the default means of removing unwanted albums
-func DefaultFilter(lowestScore int, currentMonth time.Month, albums []Album) []Album {
+func DefaultFilter(lowestScore float32, currentMonth time.Month, albums []Album) []Album {
 	return Filter(albums, func(album Album) bool {
 		return scoreIsHighEnough(lowestScore, album) && cameOutThisMonth(currentMonth, album)
 	})
 }
 
-func scoreIsHighEnough(lowestScore int, album Album) bool {
+func scoreIsHighEnough(lowestScore float32, album Album) bool {
 	return album.Score >= lowestScore
 }
 

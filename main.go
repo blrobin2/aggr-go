@@ -26,8 +26,8 @@ func getAlbums() []aggr.Album {
 }
 
 func organizeAlbums(lowestScore float32, currentMonth time.Month, albums []aggr.Album) []aggr.Album {
-	albums = aggr.UniqueAlbums(albums)
 	albums = aggr.DefaultFilter(lowestScore, currentMonth, albums)
+	albums = aggr.UniqueAlbums(albums)
 	aggr.DefaultSort(albums)
 	return albums
 }

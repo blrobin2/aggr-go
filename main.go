@@ -1,22 +1,21 @@
-package aggr
+package main
 
 import (
 	"encoding/json"
 	"fmt"
 	"time"
 
-	"github.com/blrobin2/aggr-go/album"
-	"github.com/blrobin2/aggr-go/feed"
+	"github.com/blrobin2/aggr-go/aggr"
 )
 
-func getAlbums(lowestScore int, currentMonth time.Month) []album.Album {
-	a := feed.Pitchfork()
-	album.DefaultSort(a)
-	return album.DefaultFilter(lowestScore, currentMonth, a)
+func getAlbums(lowestScore int, currentMonth time.Month) []aggr.Album {
+	a := aggr.PitchforkFeed()
+	aggr.DefaultSort(a)
+	return aggr.DefaultFilter(lowestScore, currentMonth, a)
 }
 
 func main() {
-	currentYear, currentMonth, _ := time.Now().Date()
+	_, currentMonth, _ := time.Now().Date()
 	albums := getAlbums(80, currentMonth)
 	albumsJSON, err := json.Marshal(albums)
 	if err != nil {
